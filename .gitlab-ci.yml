@@ -1,0 +1,16 @@
+image: docker:stable
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:stable-dind
+
+before_script:
+  - docker info
+
+build_image:
+  script:
+    - docker build -t robol/indico-web .
+    - docker login -u robol -p ${DOCKERHUB_ROBOL_TOKEN}
+    - docker push robol/indico-web
