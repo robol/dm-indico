@@ -11,6 +11,7 @@ before_script:
 
 build_image:
   script:
+    - cd web
     - docker build -t robol/indico-web .
     - docker login -u robol -p ${DOCKERHUB_ROBOL_TOKEN}
     - docker push robol/indico-web
