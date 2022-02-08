@@ -1,0 +1,19 @@
+version: '2.1'
+
+services:
+  web:
+    image: robol/indico-web
+    env_file: indico.env
+    ports:
+      - 80:9090
+    volumes:
+      - './archive:/indico/archive'
+  postgres:
+    image: postgres:14
+    env_file: indico.env
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
+      - ./database:/var/lib/postgresql/data
+  redis:
+    image: redis
+

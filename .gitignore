@@ -1,0 +1,6 @@
+database/
+archive/
+db-init/indico.sql
+indico.sql
+indico.env
+web/indico-web.stamp
