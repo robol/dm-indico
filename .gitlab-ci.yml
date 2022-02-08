@@ -13,7 +13,7 @@ build_image:
   script:
     - cd web
     - docker build -t robol/indico-web .
-    - [ -z $CI_COMMIT_TAG ] || docker tag robol/indico-web robol/indico-web:$CI_COMMIT_TAG
-    - [ -z $CI_COMMIT_BRANCH ] || docker tag robol/indico-web robol/indico-web:$CI_COMMIT_BRANCH
+    - test -z $CI_COMMIT_TAG || docker tag robol/indico-web robol/indico-web:$CI_COMMIT_TAG
+    - test -z $CI_COMMIT_BRANCH || docker tag robol/indico-web robol/indico-web:$CI_COMMIT_BRANCH
     - docker login -u robol -p ${DOCKERHUB_ROBOL_TOKEN}
     - docker push --all-tags robol/indico-web
