@@ -3,6 +3,14 @@ FROM python:3.9
 ENV INDICO_CONFIG=/indico/etc/indico.conf
 ENV INDICO_VERSION=3.1
 
+# Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
+COPY texlive.profile /tmp/
+RUN cd /tmp && \
+	wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
+	tar xvzf install-tl-unx.tar.gz && \
+	cd install-tl-*/ && \
+	./install-tl --profile /tmp/texlive.profile
+
 RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' && \
 	apt-get update && apt-get -y install netcat && rm /var/lib/apt/lists -rf && \
 	useradd -rm -d /indico -s /bin/bash indico && \
@@ -21,14 +29,6 @@ COPY uwsgi-indico.ini /indico/
 COPY run-indico.sh /indico/
 
 RUN chmod a+x /indico/run-indico.sh
-
-# Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
-COPY texlive.profile /tmp/
-RUN cd /tmp && \
-	wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
-	tar xvzf install-tl-unx.tar.gz && \
-	cd install-tl-*/ && \
-	./install-tl --profile /tmp/texlive.profile
 
 EXPOSE 9090
 
