@@ -17,3 +17,4 @@ build_image:
     - test -z $CI_COMMIT_BRANCH || docker tag robol/indico-web robol/indico-web:$CI_COMMIT_BRANCH
     - docker login -u robol -p "${DOCKERHUB_ROBOL_TOKEN}"
     - docker push --all-tags robol/indico-web
+    - docker image rm robol/indico-web
