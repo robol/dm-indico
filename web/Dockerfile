@@ -23,12 +23,12 @@ COPY run-indico.sh /indico/
 RUN chmod a+x /indico/run-indico.sh
 
 # Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
-COPY texlive.profile /tmp/
-RUN cd /tmp && \
-	wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
-	tar xvzf install-tl-unx.tar.gz && \
-	cd install-tl-*/ && \
-	./install-tl --profile /tmp/texlive.profile
+#COPY texlive.profile /tmp/
+#RUN cd /tmp && \
+#	wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
+#	tar xvzf install-tl-unx.tar.gz && \
+#	cd install-tl-*/ && \
+#	./install-tl --profile /tmp/texlive.profile
 
 EXPOSE 9090
 
