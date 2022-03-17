@@ -20,7 +20,9 @@ RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' && \
 	mkdir /indico/log && \
 	mkdir /indico/tmp && \
 	mkdir /indico/web && \
+        mkdir /custom && \
 	chown indico:indico /indico -R && \
+        chown indico:indico /custom && \
 	su - -c "indico setup create-symlinks /indico" indico && \
 	su - -c "indico setup create-logging-config /indico/etc" indico
 
