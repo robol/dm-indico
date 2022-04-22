@@ -11,8 +11,8 @@ RUN cd /tmp && \
 	cd install-tl-*/ && \
 	./install-tl --profile /tmp/texlive.profile
 
-RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' && \
-	apt-get update && apt-get -y install netcat && rm /var/lib/apt/lists -rf && \
+RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-plugins ipython_genutils && \
+	apt-get update && apt-get -y install netcat git && rm /var/lib/apt/lists -rf && \
 	useradd -rm -d /indico -s /bin/bash indico && \
 	mkdir /indico/archive && \
 	mkdir /indico/cache && \
@@ -25,6 +25,13 @@ RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' && \
         chown indico:indico /custom && \
 	su - -c "indico setup create-symlinks /indico" indico && \
 	su - -c "indico setup create-logging-config /indico/etc" indico
+
+# Install the indico-wp plugin
+RUN cd /tmp/ && \
+	git clone https://github.com/robol/indico-wp && \
+	cd /tmp/indico-wp && \
+	python3 setup.py install && \
+	rm -rf /tmp/indico-wp
 
 COPY indico.conf /indico/etc/
 COPY uwsgi-indico.ini /indico/
