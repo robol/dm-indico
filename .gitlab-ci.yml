@@ -4,7 +4,7 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs"
 
 services:
-  - docker:latest-dind
+  - docker:stable-dind
 
 before_script:
   - docker info
