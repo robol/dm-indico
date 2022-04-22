@@ -1,10 +1,10 @@
-image: docker:stable
+image: docker:latest
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
 
 services:
-  - docker:stable-dind
+  - docker:latest-dind
 
 before_script:
   - docker info
