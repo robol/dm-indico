@@ -30,6 +30,7 @@ RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-pl
 RUN cd /tmp/ && \
 	git clone https://github.com/robol/indico-wp && \
 	cd /tmp/indico-wp && \
+	git checkout d68ed2150dcf46d4a4445487ca374a4a35977eef && \
 	python3 setup.py install && \
 	rm -rf /tmp/indico-wp
 
