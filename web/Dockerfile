@@ -2,7 +2,7 @@ FROM python:3.9
 
 ENV INDICO_CONFIG=/indico/etc/indico.conf
 ENV INDICO_VERSION=3.1
-ENV INDICO_WP_COMMIT=e5412585e03da8b614402d639662eeedbd48fcc1
+ENV INDICO_WP_COMMIT=a64ca7d3948fcc4a6ff6bb835fc56deba4a101a9
 
 # Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
 COPY texlive.profile /tmp/
