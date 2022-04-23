@@ -2,6 +2,7 @@ FROM python:3.9
 
 ENV INDICO_CONFIG=/indico/etc/indico.conf
 ENV INDICO_VERSION=3.1
+ENV INDICO_WP_COMMIT=e5412585e03da8b614402d639662eeedbd48fcc1
 
 # Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
 COPY texlive.profile /tmp/
@@ -30,7 +31,7 @@ RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-pl
 RUN cd /tmp/ && \
 	git clone https://github.com/robol/indico-wp && \
 	cd /tmp/indico-wp && \
-	git checkout d68ed2150dcf46d4a4445487ca374a4a35977eef && \
+	git checkout ${INDICO_WP_COMMIT} && \
 	python3 setup.py install && \
 	rm -rf /tmp/indico-wp
 
