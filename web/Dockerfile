@@ -2,7 +2,7 @@ FROM python:3.9
 
 ENV INDICO_CONFIG=/indico/etc/indico.conf
 ENV INDICO_VERSION=3.1
-ENV INDICO_WP_COMMIT=a225802a0b0b2a43f52a9f6a97c4e48ae3bf6060
+ENV INDICO_UNIPIEVENTS_VERSION=0.2.1
 
 # Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
 COPY texlive.profile /tmp/
@@ -12,7 +12,7 @@ RUN cd /tmp && \
 	cd install-tl-*/ && \
 	./install-tl --profile /tmp/texlive.profile
 
-RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-plugins ipython_genutils && \
+RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-plugins ipython_genutils indico-plugin-unipievents==${INDICO_UNIPIEVENTS_VERSION} && \
 	apt-get update && apt-get -y install netcat git && rm /var/lib/apt/lists -rf && \
 	useradd -rm -d /indico -s /bin/bash indico && \
 	mkdir /indico/archive && \
@@ -26,14 +26,6 @@ RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-pl
         chown indico:indico /custom && \
 	su - -c "indico setup create-symlinks /indico" indico && \
 	su - -c "indico setup create-logging-config /indico/etc" indico
-
-# Install the indico-wp plugin
-RUN cd /tmp/ && \
-	git clone https://github.com/robol/indico-wp && \
-	cd /tmp/indico-wp && \
-	git checkout ${INDICO_WP_COMMIT} && \
-	python3 setup.py install && \
-	rm -rf /tmp/indico-wp
 
 COPY indico.conf /indico/etc/
 COPY uwsgi-indico.ini /indico/
