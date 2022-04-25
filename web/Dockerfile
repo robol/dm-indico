@@ -2,7 +2,7 @@ FROM python:3.9
 
 ENV INDICO_CONFIG=/indico/etc/indico.conf
 ENV INDICO_VERSION=3.1
-ENV INDICO_UNIPIEVENTS_VERSION=0.2.1
+ENV INDICO_UNIPIEVENTS_VERSION=0.2.2
 
 # Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
 COPY texlive.profile /tmp/
