@@ -10,7 +10,7 @@ RUN cd /tmp && \
 
 ENV INDICO_CONFIG=/indico/etc/indico.conf
 ENV INDICO_VERSION=3.1
-ENV INDICO_UNIPIEVENTS_VERSION=0.2.4
+ENV INDICO_UNIPIEVENTS_VERSION=0.2.5
 
 RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-plugins ipython_genutils indico-plugin-unipievents==${INDICO_UNIPIEVENTS_VERSION} && \
 	apt-get update && apt-get -y install netcat git && rm /var/lib/apt/lists -rf && \
