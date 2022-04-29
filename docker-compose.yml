@@ -5,11 +5,10 @@ services:
     image: robol/indico-web
     env_file: indico.env
     ports:
-      - 80:9090
+      - 9090:9090
     volumes:
       - './archive:/indico/archive'
       - './custom:/custom'
-      # - '../indico-wp:/indico-wp'
   postgres:
     image: postgres:14
     env_file: indico.env
