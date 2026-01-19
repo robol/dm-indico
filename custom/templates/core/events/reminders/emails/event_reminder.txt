@@ -7,7 +7,7 @@
 
 
 {% block subject -%}
-    {% if event.type != 'lecture' %}{{ event.type | capitalize }}: {% endif %}{{ event.title }}, {% if event.person_links and event.type == 'lecture' %}{% for link in event.person_links|sort(attribute='full_name') %}{{ link.get_full_name(last_name_upper=False, last_name_first=False, abbrev_first_name=False, show_title=True)  }}, {% endfor %}{% endif %}{{ event.start_dt | format_datetime(timezone=event.tzinfo) }} {{ event.timezone }}
+    {% if event.person_links and event.type == 'lecture' %}{% for link in event.person_links|sort(attribute='full_name') %}{{ link.get_full_name(last_name_upper=False, last_name_first=False, abbrev_first_name=False, show_title=True)  }}, {% endfor %}{% endif %}{% if event.type != 'lecture' %}{{ event.type | capitalize }}: {% endif %}{{ event.title }}, {{ event.start_dt | format_datetime('short', timezone=event.tzinfo) }} {{ event.timezone }}
 {%- endblock %}
 {% block header %}{% endblock %}
 {% block footer_url %}{{ url }}{% endblock %}
@@ -17,7 +17,7 @@
 Title: {{ event.title }},
 {% if event.person_links and event.type == 'lecture' %}Speaker(s): {% for link in event.person_links|sort(attribute='full_name') %}{{ link.get_full_name(last_name_upper=False, last_name_first=False, abbrev_first_name=False, show_title=True)  }}, {% if link.affiliation %}{{ link.affiliation }}{% endif %}, {% endfor %}{% endif %}
 Date and time: {{ event.start_dt | format_datetime(timezone=event.tzinfo) }} ({{ event.timezone }}),
-{% if event.type == 'lecture' %}Lecture series: {{ event.category.title }},{% endif %}
+{% if event.type == 'lecture' and event.category %}Lecture series: {{ event.category.title }},{% endif %}
 {% if location or room or address %}Venue: {{ render_location() }}{% endif %}
 
 You can access the full event here: {{ url }}

@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.12
 
 # Installation of TeXlive, see https://docs.getindico.io/en/stable/installation/latex/
 COPY texlive.profile /tmp/
@@ -9,8 +9,8 @@ RUN cd /tmp && \
 	./install-tl --profile /tmp/texlive.profile
 
 ENV INDICO_CONFIG=/indico/etc/indico.conf
-ENV INDICO_VERSION=3.2.8
-ENV INDICO_UNIPIEVENTS_VERSION=0.3.0
+ENV INDICO_VERSION=3.3.8
+ENV INDICO_UNIPIEVENTS_VERSION=0.3.1
 
 RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel 'Flask-Authlib' indico-plugins ipython_genutils indico-plugin-unipievents==${INDICO_UNIPIEVENTS_VERSION} && \
 	apt-get update && apt-get -y install netcat git && rm /var/lib/apt/lists -rf && \
