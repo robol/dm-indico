@@ -9,7 +9,7 @@ RUN cd /tmp && \
 	./install-tl --profile /tmp/texlive.profile
 
 ENV INDICO_CONFIG=/indico/etc/indico.conf
-ENV INDICO_VERSION=3.3.9
+ENV INDICO_VERSION=3.3.12
 ENV INDICO_UNIPIEVENTS_VERSION=0.3.3
 
 RUN pip3 install indico==${INDICO_VERSION} uwsgi wheel indico-plugins indico-plugin-unipievents==${INDICO_UNIPIEVENTS_VERSION} && \
