@@ -1,0 +1,46 @@
+name: Build and push image
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_NAME: harbor.cs.dm.unipi.it/indico-web/indico-web
+
+jobs:
+  build_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Log in to Harbor
+        env:
+          HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
+          HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
+        run: printf '%s' "$HARBOR_PASSWORD" | docker login harbor.cs.dm.unipi.it --username "$HARBOR_USERNAME" --password-stdin
+
+      - name: Build and push image
+        working-directory: web
+        shell: bash
+        run: |
+          # Docker tags cannot contain slashes or start with a dot or dash.
+          tag=$(printf '%s' "$GITHUB_REF_NAME" | sed 's/[^a-zA-Z0-9_.-]/-/g; s/^[.-]/_/')
+          tag=${tag:0:128}
+          docker build --tag "$IMAGE_NAME:latest" --tag "$IMAGE_NAME:$tag" .
+          docker push "$IMAGE_NAME:latest"
+          if [ "$tag" != latest ]; then
+            docker push "$IMAGE_NAME:$tag"
+          fi
+
+      - name: Log out of Harbor
+        if: always()
+        run: docker logout harbor.cs.dm.unipi.it
